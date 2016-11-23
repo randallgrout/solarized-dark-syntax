@@ -1,20 +1,17 @@
 // 1.
 // Define colors
 // ----------------------------------------
-// The colors below are taken from the `minimal-syntax` theme. Change them to
-// whatever you want. It's best to re-use color variables set in the rest of
-// your theme.
 
-@_background:     #ffffff;
-@_text:           #333333;
-@_syntax:         #0000ff;
-@_syntax_alt:     darken(@_syntax, 15%);
-@_content:        #009900;
-@_variable:       #0099cc;
-@_constant:       #ee1100;
-@_highlight:      #ffdd00;
-@_comment:        #ff8000;
-@_neutral:        mix(@_text, @_background);
+@_background:     @background;
+@_text:           @text;
+@_syntax:         @syntax;
+@_syntax_alt:     @syntax-alt;
+@_content:        @content;
+@_variable:       @variable;
+@_constant:       @constant;
+@_highlight:      @highlight;
+@_comment:        @neutral;
+@_neutral:        @neutral;
 
 
 
@@ -85,17 +82,19 @@
 // 3.
 // Define custom markdown styles
 // ----------------------------------------
-// Below is an incomplete list of markdown elements you might want to style
-// differently from the default markup elements defined above. All styles are
-// empty, primarily to give you an idea of what's possible.
 
 .text.md {
   .md {
-
     &.heading {
-      > .punctuation {}
       &.empty {
-        .punctuation {}
+        .punctuation {
+          opacity: 1;
+        }
+      }
+
+      .emphasis {
+        opacity: 1;
+        font-weight: normal;
       }
     }
 
@@ -105,75 +104,95 @@
     &.link {
       &.text {}
       &.destination {
-        .uri {}
-      }
-      &.label {}
-      &.title {}
-      &.auto {
-        &.email {}
-      }
-      &.reference {
-        &.abbreviation {}
-      }
-      &.footnote {
-        &.reference {}
-        &.definition {}
-      }
-    }
-
-    &.gfm {
-      &.reference {
-        .mention {}
-        .issue {}
-        .user {}
-        .repository {}
-        .sha {}
-
-        &.class {}
-        &.method {
-          &.instance {}
-          &.class {}
+        .uri {
+          text-decoration: underline;
         }
       }
-
-      &.emoji {}
+      &.title {
+        color: @_syntax_alt;
+        font-style: italic;
+      }
+      &.string {
+        background: fade(@_content, 5%);
+      }
     }
 
-    &.constant {
-      &.entity {}
-      &.escape {}
-      &.line-break {}
-    }
+    &.gfm {}
 
     &.reference {
-      &.class {}
-      &.link {}
+      &.class {
+        font-weight: normal;
+      }
+      &.link {
+        color: @_syntax;
+      }
+    }
+
+    &.link {
+      &.auto,
+      &.destination {
+        color: @_syntax;
+      }
     }
 
     &.list {
       > .punctuation {
-        &.checkbox {}
+        opacity: 1;
+        color: @_syntax_alt;
+
+        .checkbox {
+          color: @_syntax_alt;
+          background: fade(@_syntax_alt, 5%);
+        }
       }
 
-      &.unordered {}
+      &.unordered,
       &.ordered {}
-      &.empty {}
 
       &.task {
-        &.completed {}
+        &.completed {
+          color: @_text;
+          opacity: 0.333;
+
+          .code {
+            background: transparent;
+            color: @_text;
+          }
+
+          .todo,
+          .review {
+            color: inherit;
+          }
+
+          .fixme {
+            background: transparent;
+            outline: none;
+            color: inherit;
+          }
+        }
       }
 
-      &.definition {}
+      &.empty {
+        .punctuation {
+          color: @_syntax;
+        }
+      }
     }
 
     &.code {
-      &:not(.fenced) {}
-
-      &.fenced {
-        &.info {}
+      &:not(.fenced) {
+        background: fade(@_neutral, 10%);
       }
 
-      &.raw {}
+      &.fenced {
+        color: @_neutral;
+        background: fade(@_neutral, 10%);
+        &.info {}
+
+        .embedded.source {
+          color: @_text;
+        }
+      }
     }
 
     &.constant {
@@ -181,7 +200,9 @@
     }
 
     &.emphasis {
-      &:not(.strong) {}
+      &:not(.strong) {
+        opacity: 0.75;
+      }
 
       &:not(.strong) .strong {
         font-style: italic;
@@ -191,18 +212,27 @@
     &.strong {}
 
     &.table {
+      color: @_syntax_alt;
+
       > .punctuation {
-        &.alignment {}
+        opacity: 0.5;
+
+        &.alignment {
+          opacity: 1;
+        }
       }
     }
 
-    &.strike {}
+    &.strike {
+      opacity: 0.5;
+    }
 
     &.critic {
       &.addition {}
       &.deletion {}
-      &.comment {}
-      &.highlight {}
+      &.comment {
+        font-style: normal;
+      }
       &.substitution {}
     }
 
@@ -210,13 +240,22 @@
 
     &.attribute {
       &.special {
-        &.other {}
-        &.id {}
-        &.class {}
+        &.other {
+          color: inherit;
+        }
+
+        &.id {
+          font-weight: bold;
+        }
+
+        &.class {
+          font-weight: normal;
+        }
       }
       .value {
-        &.string {}
-        &.storage {}
+        &.storage {
+          color: @_syntax_alt;
+        }
       }
     }
   }
